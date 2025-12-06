@@ -1,67 +1,49 @@
 const { SESClient, SendEmailCommand } = require("@aws-sdk/client-ses");
 
 const SES_CONFIG = {
-  // credentials: {
-  //   accessKeyId: process.env.sesKeyId,
-  //   secretAccessKey: process.env.sesAccessKey,
-  // },
-  region: process.env.sesRegion,
+   // credentials: {
+   //   accessKeyId: process.env.sesKeyId,
+   //   secretAccessKey: process.env.sesAccessKey,
+   // },
+   region: process.env.sesRegion,
 };
 
 const sesClient = new SESClient(SES_CONFIG);
 
 // const nodemailer = require("nodemailer");
 
-// Configure the SMTP Transporter
-// const transporter = nodemailer.createTransport({
-//   host: "smtp.gmail.com",
-//   port: 587,
-//   secure: false,
-//   auth: {
-//     user: "globalparcelservices.alerts@gmail.com",
-//     pass: "jdee kypb ztbz jdxq",
-//   },
-// });
-
-// const mailgun = nodemailer.createTransport({
-//   host: "smtp.mailgun.org",
-//   port: 587,
-//   auth: {
-//     user: "postmaster@sandbox39e1619620a547669a08ae67091bfa9e.mailgun.org",
-//     pass: "5ae372c2a1ac312cc2615440fc886ad0-0920befd-5442e071",
-//   },
-// });
+ 
 
 async function SendEmail(recipient, subject, message, type) {
-  const params = {
-    Source: process.env.sesEmail,
-    Destination: {
-      ToAddresses: [recipient],
-    },
-    Message: {
-      Body: {
-        Html: {
-          Data: type === "otp" ? otpTemplate(message) : message,
-        },
+   const params = {
+      Source: process.env.sesEmail,
+      Destination: {
+         ToAddresses: [recipient],
       },
-      Subject: {
-        Data: subject,
+      Message: {
+         Body: {
+            Html: {
+               Data: type === "otp" ? otpTemplate(message) : message,
+            },
+         },
+         Subject: {
+            Data: subject,
+         },
       },
-    },
-  };
-  try {
-    await sesClient.send(new SendEmailCommand(params));
-    // await sendOTP(recipient, message);
-    return true;
-  } catch (error) {
-    return false;
-  }
+   };
+   try {
+      await sesClient.send(new SendEmailCommand(params));
+      // await sendOTP(recipient, message);
+      return true;
+   } catch (error) {
+      return false;
+   }
 }
 
 module.exports.SendEmail = SendEmail;
 
 const otpTemplate = (
-  otp
+   otp
 ) => `<html xmlns="http://www.w3.org/1999/xhtml" xmlns:v="urn:schemas-microsoft-com:vml" xmlns:o="urn:schemas-microsoft-com:office:office"><head>
  
  
@@ -225,11 +207,11 @@ a[x-apple-data-detectors='true'] {
   <h1 style="margin: 0px; color: #3b4d63; line-height: 140%; text-align: center; word-wrap: break-word; font-weight: normal; font-family: arial,helvetica,sans-serif; font-size: 41px;">
     <strong>
     ${otp
-      .split("")
-      .map((item) => {
-        return `<span style="text-decoration: underline;">${item}</span>`;
-      })
-      .join("")}
+       .split("")
+       .map((item) => {
+          return `<span style="text-decoration: underline;">${item}</span>`;
+       })
+       .join("")}
     </strong>
   </h1>
 
