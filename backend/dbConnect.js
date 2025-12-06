@@ -2,7 +2,7 @@ const dotenv = require("dotenv").config();
 
 const mongoose = require("mongoose");
 
-const MONGO_URI = "mongodb://localhost:27017/work";
+const MONGO_URI = "mongodb+srv://sirajahmedxdev_db_user:5K55aUiZvkTmfNW4@cluster.aas7hck.mongodb.net/skillo";
 
 if (!MONGO_URI) {
   throw new Error(
