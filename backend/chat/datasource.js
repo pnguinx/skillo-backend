@@ -120,7 +120,15 @@ const getBookingMessages = async (args) => {
 
     const messages = await MessageModel.find(query)
       .sort({ createdAt: 1 })
-      .populate("sender recipient", "first_name last_name email");
+      .populate("sender recipient", "first_name last_name email")
+      .populate({
+        path: "replyTo",
+        select: "content type sender offer images",
+        populate: {
+          path: "sender",
+          select: "first_name last_name _id",
+        },
+      });
 
     // Mark as seen only if both booking and userId are provided
     if (booking && user) {

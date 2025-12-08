@@ -6,16 +6,25 @@ const typedefs = `
     terms: String
   }
 
+  type MessageImage {
+    url: String!
+    key: String!
+    width: Int
+    height: Int
+  }
+
   type Message {
     _id: ID
     sender: User
     recipient: User
     booking: Booking
     content: String
+    images: [MessageImage]
     offer: Offer
     type: String
     status: String
     conversationId: String
+    replyTo: Message
     createdAt: String
     direction: String
     isCurrentUser: Boolean
